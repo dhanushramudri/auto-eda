@@ -630,36 +630,220 @@ def generate_eda_summary_report(df):
 # ============================================================================
 
 def render_sidebar():
-    """Render sidebar with data source selection and connection options"""
+    """Render enhanced sidebar with modern UI and better organization"""
     
-    st.sidebar.markdown("# 📊 AutoEDA")
-    st.sidebar.markdown("*Internal DS Platform*")
-    st.sidebar.markdown("---")
+    # Alternative: Minimal geometric logo
+    st.sidebar.markdown("""
+        <div style="
+            padding: 1.5rem 1rem;
+            background-color: #ffffff;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        ">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 0.5rem;">
+                <!-- Modern A shape with data visualization elements -->
+                <path d="M 24 8 L 38 40 L 32 40 L 29 32 L 19 32 L 16 40 L 10 40 Z" fill="#2c3e50"/>
+                <rect x="20" y="26" width="8" height="6" fill="#2196f3"/>
+                <!-- Data dots -->
+                <circle cx="14" cy="20" r="2" fill="#4caf50"/>
+                <circle cx="24" cy="16" r="2" fill="#ff9800"/>
+                <circle cx="34" cy="20" r="2" fill="#9c27b0"/>
+            </svg>
+            <h1 style="color: #2c3e50; margin: 0; font-size: 1.8rem; font-weight: 700;">
+                AutoEDA
+            </h1>
+        </div>
+    """, unsafe_allow_html=True)
     
-    st.sidebar.subheader("🔌 Data Source Connector")
+    # Connection status indicator
+    if st.session_state.datasets:
+        st.sidebar.markdown(f"""
+            <div style="
+                padding: 0.75rem;
+                background-color: #e8f5e9;
+                border-left: 4px solid #4caf50;
+                border-radius: 4px;
+                margin-bottom: 1rem;
+            ">
+                <p style="margin: 0; color: #2e7d32; font-size: 0.85rem;">
+                    <strong>✓ Connected</strong><br/>
+                    {len(st.session_state.datasets)} dataset(s) loaded
+                </p>
+            </div>
+        """, unsafe_allow_html=True)
     
-    # Data source categories
-    file_sources = ["CSV/Excel File"]
-    database_sources = ["MySQL", "PostgreSQL", "SQLite", "MSSQL", "MongoDB"]
-    cloud_sources = ["AWS S3", "Azure Blob Storage", "Google Cloud Storage"]
-    api_sources = ["REST API"]
+    # Data Source Connector Section
+    st.sidebar.markdown("""
+        <div style="margin-bottom: 0.75rem;">
+            <h3 style="color: #34495e; font-size: 1rem; margin-bottom: 0.5rem; font-weight: 600;">
+                🔌 Data Source Connector
+            </h3>
+        </div>
+    """, unsafe_allow_html=True)
     
+    # Enhanced category selection with icons
     source_category = st.sidebar.radio(
         "Select Source Type",
         ["📁 Files", "💾 Databases", "☁️ Cloud Storage", "🌐 APIs"],
-        key="sidebar_source_category_radio"
+        key="sidebar_source_category_radio",
+        label_visibility="collapsed"
     )
     
-    if source_category == "📁 Files":
-        data_source = st.sidebar.selectbox("Choose File Type", file_sources, key="file_type_select")
-    elif source_category == "💾 Databases":
-        data_source = st.sidebar.selectbox("Choose Database", database_sources, key="database_select")
-    elif source_category == "☁️ Cloud Storage":
-        data_source = st.sidebar.selectbox("Choose Cloud Provider", cloud_sources, key="cloud_select")
-    else:
-        data_source = st.sidebar.selectbox("Choose API Type", api_sources, key="api_select")
+    # Add spacing
+    st.sidebar.markdown("<div style='margin: 0.5rem 0;'></div>", unsafe_allow_html=True)
     
-    st.sidebar.markdown("---")
+    # Source selection based on category with improved UI
+    if source_category == "📁 Files":
+        file_sources = ["CSV/Excel File"]
+        st.sidebar.markdown("""
+            <div style="
+                padding: 0.6rem;
+                background-color: #f5f5f5;
+                border-left: 3px solid #2196f3;
+                border-radius: 4px;
+                margin-bottom: 0.5rem;
+            ">
+                <p style="margin: 0; font-size: 0.8rem; color: #546e7a;">
+                    💡 Upload CSV or Excel files for analysis
+                </p>
+            </div>
+        """, unsafe_allow_html=True)
+        data_source = st.sidebar.selectbox(
+            "Choose File Type", 
+            file_sources, 
+            key="file_type_select",
+            label_visibility="collapsed"
+        )
+        
+    elif source_category == "💾 Databases":
+        database_sources = ["MySQL", "PostgreSQL", "SQLite", "MSSQL", "MongoDB"]
+        st.sidebar.markdown("""
+            <div style="
+                padding: 0.6rem;
+                background-color: #f5f5f5;
+                border-left: 3px solid #673ab7;
+                border-radius: 4px;
+                margin-bottom: 0.5rem;
+            ">
+                <p style="margin: 0; font-size: 0.8rem; color: #546e7a;">
+                    💡 Connect to enterprise databases
+                </p>
+            </div>
+        """, unsafe_allow_html=True)
+        data_source = st.sidebar.selectbox(
+            "Choose Database", 
+            database_sources, 
+            key="database_select",
+            label_visibility="collapsed"
+        )
+        
+    elif source_category == "☁️ Cloud Storage":
+        cloud_sources = ["AWS S3", "Azure Blob Storage", "Google Cloud Storage"]
+        st.sidebar.markdown("""
+            <div style="
+                padding: 0.6rem;
+                background-color: #f5f5f5;
+                border-left: 3px solid #4caf50;
+                border-radius: 4px;
+                margin-bottom: 0.5rem;
+            ">
+                <p style="margin: 0; font-size: 0.8rem; color: #546e7a;">
+                    💡 Access data from cloud providers
+                </p>
+            </div>
+        """, unsafe_allow_html=True)
+        data_source = st.sidebar.selectbox(
+            "Choose Cloud Provider", 
+            cloud_sources, 
+            key="cloud_select",
+            label_visibility="collapsed"
+        )
+        
+    else:  # APIs
+        api_sources = ["REST API"]
+        st.sidebar.markdown("""
+            <div style="
+                padding: 0.6rem;
+                background-color: #f5f5f5;
+                border-left: 3px solid #ff9800;
+                border-radius: 4px;
+                margin-bottom: 0.5rem;
+            ">
+                <p style="margin: 0; font-size: 0.8rem; color: #546e7a;">
+                    💡 Fetch data from REST APIs
+                </p>
+            </div>
+        """, unsafe_allow_html=True)
+        data_source = st.sidebar.selectbox(
+            "Choose API Type", 
+            api_sources, 
+            key="api_select",
+            label_visibility="collapsed"
+        )
+    
+    # Divider with better styling
+    st.sidebar.markdown("""
+        <hr style="
+            margin: 1.5rem 0;
+            border: none;
+            border-top: 1px solid #e0e0e0;
+        "/>
+    """, unsafe_allow_html=True)
+    
+    # Active Datasets Section
+    if st.session_state.datasets:
+        st.sidebar.markdown("""
+            <div style="margin-bottom: 1rem;">
+                <h3 style="color: #34495e; font-size: 1rem; margin-bottom: 0.5rem; font-weight: 600;">
+                    📊 Active Datasets
+                </h3>
+            </div>
+        """, unsafe_allow_html=True)
+        
+        for idx, (name, df) in enumerate(st.session_state.datasets.items()):
+            # Truncate long names
+            display_name = name if len(name) <= 25 else name[:22] + "..."
+            
+            st.sidebar.markdown(f"""
+                <div style="
+                    padding: 0.75rem;
+                    background-color: #fafafa;
+                    border: 1px solid #e0e0e0;
+                    border-left: 3px solid #2196f3;
+                    border-radius: 4px;
+                    margin-bottom: 0.5rem;
+                ">
+                    <p style="margin: 0; font-weight: 600; font-size: 0.85rem; color: #2c3e50;">
+                        {display_name}
+                    </p>
+                    <p style="margin: 0.25rem 0 0 0; font-size: 0.75rem; color: #7f8c8d;">
+                        {len(df):,} rows × {len(df.columns)} cols
+                    </p>
+                </div>
+            """, unsafe_allow_html=True)
+        
+        st.sidebar.markdown("""
+            <hr style="
+                margin: 1rem 0;
+                border: none;
+                border-top: 1px solid #e0e0e0;
+            "/>
+        """, unsafe_allow_html=True)
+    
+    # Footer with version and help
+    st.sidebar.markdown("""
+        <div style="
+            margin-top: 2rem;
+            padding: 1rem 0.5rem;
+            border-top: 1px solid #e0e0e0;
+            font-size: 0.75rem;
+            color: #95a5a6;
+            text-align: center;
+        ">
+        </div>
+    """, unsafe_allow_html=True)
     
     return data_source
 
@@ -684,6 +868,9 @@ def handle_file_upload():
                 st.sidebar.success(f"✅ Loaded: {file.name}")
             except Exception as e:
                 st.sidebar.error(f"❌ Error loading {file.name}: {str(e)}")
+
+
+
 
 def handle_mysql_connection():
     """Handle MySQL database connection with credential management"""
