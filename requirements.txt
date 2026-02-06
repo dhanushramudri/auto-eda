@@ -31,3 +31,13 @@ google-cloud-storage>=2.14.0
 # API & Utilities
 requests>=2.31.0
 python-dotenv>=1.0.0
+
+# Security & Encryption
+cryptography>=41.0.0
+
+# Excel Support
+openpyxl>=3.1.0
+xlrd>=2.0.1
+
+# Additional Analysis Tools
+statsmodels>=0.14.0
