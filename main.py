@@ -635,12 +635,15 @@ def render_sidebar():
     # Alternative: Minimal geometric logo
     st.sidebar.markdown("""
         <div style="
-            padding: 1.5rem 1rem;
+            padding: 1rem 0.5rem;
             background-color: #ffffff;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
             margin-bottom: 1.5rem;
             text-align: center;
+            display:flex;
+            align-items:center;
+            justify-content:center;
         ">
             <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 0.5rem;">
                 <!-- Modern A shape with data visualization elements -->
@@ -651,8 +654,8 @@ def render_sidebar():
                 <circle cx="24" cy="16" r="2" fill="#ff9800"/>
                 <circle cx="34" cy="20" r="2" fill="#9c27b0"/>
             </svg>
-            <h1 style="color: #2c3e50; margin: 0; font-size: 1.8rem; font-weight: 700;">
-                AutoEDA
+            <h1 style="color: rgb(15, 23, 42); font-size: 1.8rem; font-weight: 700; margin-left:-10px">
+                utoEDA
             </h1>
         </div>
     """, unsafe_allow_html=True)
@@ -1196,17 +1199,17 @@ def render_welcome_screen():
     # Main title and subtitle
     st.markdown(
         """
-<div style="
-    text-align: center; 
-    padding: 3rem 2rem; 
-    border-radius: 20px; 
-    color: white; 
-    margin-bottom: 2rem; 
-    background: url('https://jmangroup.com/wp-content/uploads/2024/04/Group-688.svg') no-repeat center/cover;
-">
-    <h1 style="font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); color: #0f172a;">AutoEDA Platform</h1>
-    <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9;">Transform raw data into actionable insights </p>
-</div>
+            <div style="
+                text-align: center; 
+                padding: 3rem 2rem; 
+                border-radius: 20px; 
+                color: white; 
+                margin-bottom: 2rem; 
+                background: url('https://jmangroup.com/wp-content/uploads/2024/04/Group-688.svg') no-repeat center/cover;
+            ">
+                <h1 style="font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); color: #0f172a;">AutoEDA Platform</h1>
+                <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9;">Transform raw data into actionable insights </p>
+            </div>
 
         """,
         unsafe_allow_html=True
