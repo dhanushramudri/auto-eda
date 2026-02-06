@@ -14,6 +14,7 @@ def remove_selected_columns(df,columns_remove):
 def remove_rows_with_missing_data(df, columns):
     if columns:
         df = df.dropna(subset=columns)
+        print(df)
         return df
 
 # Create a function to fill missing data with mean, median, or mode (for numerical columns)
