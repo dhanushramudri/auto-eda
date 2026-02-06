@@ -79,17 +79,6 @@ st.set_page_config(
 # Custom CSS for better UI
 st.markdown("""
     <style>
-    .main-header {
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: #1f77b4;
-        margin-bottom: 0.5rem;
-    }
-    .sub-header {
-        font-size: 1.2rem;
-        color: #666;
-        margin-bottom: 2rem;
-    }
     .success-box {
         padding: 1rem;
         background-color: #d4edda;
@@ -1009,6 +998,150 @@ def show_api_builder_modal():
         st.warning("⚠️ Postman-style API UI not available. Install the required dependency.")
 
 # ============================================================================
+# WELCOME SCREEN
+# ============================================================================
+
+def render_welcome_screen():
+    """Render modern welcome screen using Streamlit native components"""
+    
+    # Create a container with colored background using Streamlit
+    
+    # Main title and subtitle
+    st.markdown(
+        """
+<div style="
+    text-align: center; 
+    padding: 3rem 2rem; 
+    border-radius: 20px; 
+    color: white; 
+    margin-bottom: 2rem; 
+    background: url('https://jmangroup.com/wp-content/uploads/2024/04/Group-688.svg') no-repeat center/cover;
+">
+    <h1 style="font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); color: #0f172a;">AutoEDA Platform</h1>
+    <p style="font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9;">Transform raw data into actionable insights </p>
+</div>
+
+        """,
+        unsafe_allow_html=True
+    )
+    
+    # Statistics
+    st.markdown("### 📊 Platform Statistics")
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.metric(label="Data Sources", value="10+", delta="Files, DBs, APIs, Cloud")
+    
+    with col2:
+        st.metric(label="Analysis Types", value="50+", delta="Statistical Methods")
+    
+    
+    st.markdown("---")
+    
+    # Feature highlights
+    st.markdown("### ✨ Key Features")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("""
+        #### 📊 Smart Analytics
+        Advanced statistical analysis with univariate, bivariate, and multivariate techniques
+        
+        #### 🔗 Universal Connectivity
+        Connect to databases, cloud storage, APIs, and file systems seamlessly
+        """)
+    
+    with col2:
+        st.markdown("""
+        #### 🎯 Outlier Detection
+        Multiple detection methods including IQR, Z-Score, and Isolation Forest
+        
+        #### 🛠️ Data Preprocessing
+        Complete suite of cleaning, transformation, and feature engineering tools
+        """)
+    
+    st.markdown("---")
+    
+    # Platform Capabilities
+    st.markdown("### 🚀 Platform Capabilities")
+    
+    col1, col2, col3, col4 = st.columns(4)
+    
+    with col1:
+        st.markdown("""
+        - ✓ Real-time Visualization
+        - ✓ PCA Analysis
+        """)
+    
+    with col2:
+        st.markdown("""
+        - ✓ Correlation Analysis
+        - ✓ Missing Data Treatment
+        """)
+    
+    with col3:
+        st.markdown("""
+        - ✓ Feature Engineering
+        - ✓ Custom SQL Queries
+        """)
+    
+    with col4:
+        st.markdown("""
+        - ✓ Multi-Dataset Joins
+        - ✓ Multiple Export Formats
+        """)
+    
+    st.markdown("---")
+    
+    # Getting started section
+    st.markdown("## 🚀 Getting Started")
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("""
+        ### 1️⃣ Connect Data Source
+        - Choose from 10+ data sources
+        - Files, databases, APIs, cloud storage
+        - Secure credential management
+        - Test connections before loading
+        """)
+    
+    with col2:
+        st.markdown("""
+        ### 2️⃣ Explore & Analyze
+        - Automatic data profiling
+        - Interactive visualizations
+        - Statistical summaries
+        - Correlation analysis
+        """)
+    
+    with col3:
+        st.markdown("""
+        ### 3️⃣ Process & Export
+        - Clean and transform data
+        - Handle missing values
+        - Engineer features
+        - Export in multiple formats
+        """)
+    
+    st.markdown("---")
+    
+    # Quick tips
+    with st.expander("💡 Quick Tips", expanded=False):
+        st.markdown("""
+        - **Start Simple**: Begin with file uploads to get familiar with the platform
+        - **Use SQL Editor**: For databases, use custom SQL queries for precise data extraction
+        - **Save Versions**: Create snapshots of your preprocessed data at different stages
+        - **Join Datasets**: Combine multiple datasets for comprehensive analysis
+        - **Export Early**: Download intermediate results to avoid data loss
+        """)
+    
+    # Call to action
+    st.info("👈 **Get Started:** Select a data source from the sidebar to begin your analysis journey!")
+
+# ============================================================================
 # ENHANCED DATA EXPLORATION
 # ============================================================================
 
@@ -1475,10 +1608,6 @@ def render_sql_editor(data_source, connection_params):
 def main():
     """Main application entry point"""
     
-    # Header
-    st.markdown('<p class="main-header">AutoEDA Platform</p>', unsafe_allow_html=True)
-    
-    
     # Show API builder modal if requested
     if st.session_state.get('show_api_builder', False):
         show_api_builder_modal()
@@ -1511,9 +1640,7 @@ def main():
     # SQL Editor for database sources
     if connection_params:
         render_sql_editor(data_source, connection_params)
-    
-    st.markdown("---")
-    
+        
     # Main content area - Dataset selection and analysis
     if st.session_state.datasets:
         st.markdown("## 📋 Dataset Selection")
@@ -1573,44 +1700,14 @@ def main():
             key="main_menu"
         )
         
-        
         # Render selected section
         if selected_menu == 'Data Exploration':
             render_data_exploration(df)
         else:
             render_data_preprocessing(df)
     else:
-        # Welcome screen
-        st.info("👈 Please connect to a data source and load data from the sidebar")
-        
-        st.markdown("### 🚀 Quick Start Guide")
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.markdown("""
-            #### 📥 Loading Data
-            1. **Select a data source** from the sidebar
-               - Files (CSV, Excel)
-               - Databases (MySQL, PostgreSQL, etc.)
-               - Cloud Storage (S3, Azure, GCS)
-               - REST APIs
-            2. **Configure connection** parameters
-            3. **Test connection** (for databases/APIs)
-            4. **Load your data** using the appropriate buttons
-            """)
-        
-        with col2:
-            st.markdown("""
-            #### 🔍 EDA Features
-            - **Univariate Analysis** - Explore individual variables
-            - **Bivariate Analysis** - Analyze variable relationships
-            - **Multivariate Analysis** - PCA, pair plots, 3D visualizations
-            - **Outlier Detection** - IQR, Z-Score, Isolation Forest
-            - **Data Quality Dashboard** - Comprehensive quality metrics
-            - **Feature Engineering** - Create new features
-            - **Data Preprocessing** - Clean and transform data
-            """)
+        # Welcome screen - NEW IMPROVED UI
+        render_welcome_screen()
 
 if __name__ == "__main__":
     main()
